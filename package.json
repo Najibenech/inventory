@@ -1,0 +1,11 @@
+{
+  "name": "ardour-cafe-inventory-system",
+  "version": "1.0.0",
+  "description": "Local dev server for Ardour Cafe Inventory System",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js"
+  },
+  "author": "",
+  "license": "MIT"
+}

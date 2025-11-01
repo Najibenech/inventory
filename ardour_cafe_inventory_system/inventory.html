@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inventory Dashboard - Ardour Café</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="../script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/logo.png" alt="logo" class="logo" width="48" height="48" />
+      <h1>Inventory Dashboard</h1>
+    </div>
+    <nav>
+  <a class="btn" href="index.html">Home</a>
+  <span id="currentUser" class="user-label" aria-live="polite"></span>
+  <button id="logoutBtn" class="btn outline">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <nav class="dashboard-nav">
+      <button class="nav-btn" data-target="store">Store</button>
+      <button class="nav-btn" data-target="marina">Marina Branch</button>
+      <button class="nav-btn" data-target="bb">Business Bay</button>
+      <button class="nav-btn" data-target="stock">In Stock</button>
+    </nav>
+    <div class="export-import-panel">
+      <h4>Export / Import CSV (separate files)</h4>
+      <div class="ei-row">
+        <button id="exportStore" class="btn small">Export Store CSV</button>
+        <label for="importStore" class="sr-only">Import Store CSV</label>
+        <input id="importStore" type="file" accept=".csv" />
+      </div>
+      <div class="ei-row">
+        <button id="exportMarina" class="btn small">Export Marina CSV</button>
+        <label for="importMarina" class="sr-only">Import Marina CSV</label>
+        <input id="importMarina" type="file" accept=".csv" />
+      </div>
+      <div class="ei-row">
+        <button id="exportBB" class="btn small">Export Business Bay CSV</button>
+        <label for="importBB" class="sr-only">Import Business Bay CSV</label>
+        <input id="importBB" type="file" accept=".csv" />
+      </div>
+      <div class="ei-row">
+        <button id="exportStock" class="btn small">Export Stock CSV</button>
+        <label for="importStock" class="sr-only">Import Stock CSV</label>
+        <input id="importStock" type="file" accept=".csv" />
+      </div>
+    </div>
+
+    <section class="dashboard">
+      <section id="store" class="panel section-active">
+        <h2>Store (All items)</h2>
+        <table id="storeTable" class="data-table">
+          <thead><tr><th>Name</th><th>Category</th><th>Units</th><th>Quantity</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section id="marina" class="panel section-hidden">
+        <h2>Marina Cafe Branch (Outgoing)</h2>
+        <form id="marinaForm" class="small-form">
+          <label for="marinaDate" class="sr-only">Date</label>
+          <input id="marinaDate" name="date" type="date" required />
+          <label for="marinaSelect" class="sr-only">Choose item</label>
+          <select name="itemSelect" id="marinaSelect"></select>
+          <div id="marinaMsg" class="form-msg" aria-live="polite"></div>
+          <div class="or-new">or enter new:</div>
+          <input name="name" placeholder="Item name" />
+          <input name="category" placeholder="Category" />
+          <input name="units" placeholder="Units" />
+          <input name="qty" type="number" min="1" placeholder="Quantity" required />
+          <button class="btn" type="submit">Record</button>
+        </form>
+  <table id="marinaTable" class="data-table"><thead><tr><th>Date</th><th>Name</th><th>Category</th><th>Units</th><th>Qty</th><th>Created By</th><th>Actions</th></tr></thead><tbody></tbody></table>
+      </section>
+
+      <section id="bb" class="panel section-hidden">
+        <h2>Business Bay Branch (Outgoing)</h2>
+        <form id="bbForm" class="small-form">
+          <label for="bbDate" class="sr-only">Date</label>
+          <input id="bbDate" name="date" type="date" required />
+          <label for="bbSelect" class="sr-only">Choose item</label>
+          <select name="itemSelect" id="bbSelect"></select>
+          <div id="bbMsg" class="form-msg" aria-live="polite"></div>
+          <div class="or-new">or enter new:</div>
+          <input name="name" placeholder="Item name" />
+          <input name="category" placeholder="Category" />
+          <input name="units" placeholder="Units" />
+          <input name="qty" type="number" min="1" placeholder="Quantity" required />
+          <button class="btn" type="submit">Record</button>
+        </form>
+  <table id="bbTable" class="data-table"><thead><tr><th>Date</th><th>Name</th><th>Category</th><th>Units</th><th>Qty</th><th>Created By</th><th>Actions</th></tr></thead><tbody></tbody></table>
+      </section>
+
+      <section id="stock" class="panel section-hidden">
+        <h2>In Stock (Add new stock)</h2>
+        <form id="stockForm" class="stock-form">
+          <label for="stockDate" class="sr-only">Date</label>
+          <input id="stockDate" name="date" type="date" required />
+          <label for="stockSelect">Choose existing item</label>
+          <select id="stockSelect" name="itemSelect"></select>
+          <div class="or-new">or add new item</div>
+          <input name="name" placeholder="Item name" />
+          <input name="category" placeholder="Category" />
+          <input name="units" placeholder="Units" />
+          <input name="qty" type="number" min="1" placeholder="Quantity" required />
+          <button class="btn" type="submit">Add to Store</button>
+        </form>
+        <h3>In-stock history</h3>
+  <table id="stockTable" class="data-table"><thead><tr><th>Date</th><th>Name</th><th>Category</th><th>Units</th><th>Qty</th><th>Created By</th><th>Actions</th></tr></thead><tbody></tbody></table>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Ardour Café</p>
+  </footer>
+  <!-- Edit modal -->
+  <div id="editModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+      <h3>Edit Record</h3>
+      <form id="editForm">
+        <label for="editDate">Date</label>
+        <input id="editDate" name="date" type="date" required />
+        <label for="editName">Item</label>
+        <input id="editName" name="name" type="text" readonly />
+        <label for="editQty">Quantity</label>
+        <input id="editQty" name="qty" type="number" min="0" required />
+        <div class="modal-actions">
+          <button type="submit" class="btn">Save</button>
+          <button type="button" id="editDeleteBtn" class="btn outline">Delete</button>
+          <button type="button" id="editCancel" class="btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
